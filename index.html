@@ -1,0 +1,148 @@
+  <head>
+    <meta charset="utf-8" />
+    <title>Libros APP . EmberJS</title>
+    <link rel="stylesheet" href="css/estilos.css">
+  </head>
+
+  <body>
+
+    <!-- Template para la vista libros -->
+    <script type="text/x-handlebars" data-template-name="libros">
+
+     <div>
+
+      <div class="menu">
+        <h2>Libros</h2>
+
+        {{ partial "ui"}}
+
+        <div id="libros">
+         {{ partial "librosList"}}
+        </div>
+      </div>
+      
+      <div class="content">
+        {{ outlet }}
+      </div>
+     </div>
+    </script>
+
+    <!-- Template para la ruta inicial de libros (no hay libro seleccionado) -->
+    <script type="text/x-handlebars" data-template-name="libros/index">
+      <p><h3>Selecciona un libro!</h3></p>
+    </script>
+
+    <!--Partial con la interfaz de usuario para buscar/filtrar -->
+
+    <script type="text/x-handlebars" data-template-name="_ui">
+      
+        {{view App.FilterView}}
+        {{view App.SortView}}
+
+    </script>
+    
+    <!-- Template para la vista filter -->
+    <script type="text/x-handlebars" data-template-name="filter">
+      <p>
+        <strong>Buscar</strong>
+        <br />
+        Título o Autor: <input id="filterField"/>
+      </p>
+    </script>
+
+    <!-- Template para la vista sort -->
+    <script type="text/x-handlebars" data-template-name="sort">
+      <p>
+        <strong>Ordenar</strong>
+        <br />
+
+          <select id="sortField">
+          <option value="titulo">Título</option>
+          <option value="autor">Autor</option>
+          <!-- podríamos ordenar por editorial tambien-->
+          <!-- <option value="autor">Editorial</option> -->
+        </select>
+        <select id="sortOrder">
+          <option value="asc">Ascendente</option>
+          <option value="desc">Descendente</option>
+        </select>
+      </p>
+    </script>
+
+    <!-- Partial con el bucle sobre todos los libros en el modelo -->
+    <script type="text/x-handlebars" data-template-name="_librosList">
+      <ul>
+      {{#each libro in controller }}
+      
+        <li>
+        {{#linkTo "libro" libro }}
+            <img {{ bindAttr src='libro.img' }} width='32' height='50'>
+        {{/linkTo}}
+        <p>
+           {{#linkTo "libro" libro }} {{ libro.titulo }} {{/linkTo}}
+          <br/><br/>
+          by <strong>{{ libro.autor }}</strong>
+        </p>
+        
+        </li>
+        
+      {{/each}}
+
+      </ul>
+    </script>
+
+    <!-- Template para la vista libro (Ficha del libro) -->
+    <script type="text/x-handlebars" data-template-name="libro">
+      <h2> {{ titulo }} </h2>
+      <p>
+      <img {{ bindAttr src='img' }} width='95' height='150'>
+      <br/><br/>
+      by <strong>{{ autor }}</strong>
+      <br/><br/>
+      <i>{{ editorial }}</i>
+      <br/><br/>
+      {{ descripcion }}
+      </p>
+
+    </script>
+
+    <script src="src/libs/jquery-1.8.3.min.js"></script>
+    <script src="src/libs/handlebars-1.0.0.rc.2.js"></script>
+    <script src="src/libs/ember.js"></script>
+    <script src="src/libs/ember-data.js"></script>
+    <script src="src/app.js"></script>
+    <script src="src/models/libro_model.js"></script>
+
+    <script type="text/javascript">
+ 
+    //Datos iniciales (normalmente generados dinámicamente por el servidor!)
+    var bootstrap = [
+     {
+     id: 1,
+     titulo: 'El Juego de Ender',
+     autor: 'Orson Scott Card',
+     editorial: 'Ediciones B / Zeta',
+     descripcion: 'La Tierra está amenazada por una especie extraterrestre de insectos que pretende destruir la humanidad. Para vencerlos se precisa la intervención de un genio militar, por lo cual se permite el nacimiento de Ender, tercer hijo de una pareja en un mundo que limita a dos el número de descendientes. Ender se entrenará en una estación espacial, superará a sus rivales y se convertirá en la persona capaz de dirigir las flotas terrestres contra los insectos de otros mundos.',
+     img: 'img/img1.jpg'
+    },
+    {
+     id: 2,
+     titulo: 'Juego de tronos',
+     autor: 'George R. R. Martin',
+     editorial: 'Gigamesh',
+     descripcion: 'Tras el largo verano, el invierno se acerca a los Siete Reinos. [...] En un mundo cuyas estaciones pueden durar decenios y en el que retazos de una magia inmemorial y olvidada surgen en los rincones más sombríos y maravillosos, la traición y la lealtad, la compasión y la sed de venganza, el amor y el poder hacen del juego de tronos una poderosa trampa que atrapará en sus fauces a los personajes... y al lector.',
+     img: 'img/img2.jpg'
+    },
+    {
+     id: 3,
+     titulo: 'I robot',
+     autor: 'Isaac Asimov',
+     editorial: 'Edhasa',
+     descripcion: 'Los robots de Isaac Asimov son máquinas capaces de llevar a cabo muy diversas tareas, y que a menudo se plantean a sí mismos problemas de conducta humana [...] Las paradojas que se plantean en estos relatos futuristas no son sólo ingeniosos ejercicios intelectuales sino sobre todo una indagación sobre la situación del hombre actual en relación con los avances tecnológicos y con la experiencia del tiempo.',
+     img: 'img/img3.jpg'
+    }
+  ];
+  
+    </script>
+  </body>
+</html>
